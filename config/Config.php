@@ -11,12 +11,19 @@
 // // define('DB_NAME', 'db_slim3');
 // define('DB_NAME', 'db_meranti_expose');
 
+// ## mode release PRODUCTION
+// define('DB_DRIVER', 'mysql');
+// define('DB_USERNAME', 'n1577716_ProMetago');
+// define('DB_PASSWORD', 'LigaMan2023#');
+// define('DB_HOST', 'qordinate.com'); //45.130.231.249 //217.21.72.73
+// define('DB_NAME', 'n1577716_db_meranti_expose');
+
 ## mode release PRODUCTION
 define('DB_DRIVER', 'mysql');
-define('DB_USERNAME', 'n1577716_ProMetago');
-define('DB_PASSWORD', 'LigaMan2023#');
-define('DB_HOST', 'qordinate.com'); //45.130.231.249 //217.21.72.73
-define('DB_NAME', 'n1577716_db_meranti_expose');
+define('DB_USERNAME', 'sql_topapi_qordi');
+define('DB_PASSWORD', '4baf33726e51a');
+define('DB_HOST', '103.127.138.42'); //45.130.231.249 //217.21.72.73
+define('DB_NAME', 'sql_topapi_qordi');
 
 // define('DB_USERNAME', 'root');
 // define('DB_PASSWORD', '');
