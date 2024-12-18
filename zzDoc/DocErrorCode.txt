@@ -1,0 +1,25 @@
+# Error Codes
+
+200 = SUCCESS 
+
+400 = API_VALIDATION_ERROR //There is invalid input in one of the required request fields
+
+400 = PARAM_VALIDATION_ERROR //There is invalid input in one of the required request fields
+
+401 = INVALID_API_KEY //API key is not authorized for this API service
+
+403 = REQUEST_FORBIDDEN_ERROR //The API key is forbidden to perform this request
+
+404 = DATA_NOT_FOUND //Resource not found. Please check your query again.
+
+405 = NOT_ALLOWED 
+
+409 = DUPLICATE_ERROR //Idempotency key has been used before. Use a unique idempotency key and try again.
+
+409 = CONFLICT //resource already exists
+
+500 = INTERNAL_SERVER_ERROR //An unexpected error occured. Our team has been notified and will troubleshoot the issue
+
+
+
+

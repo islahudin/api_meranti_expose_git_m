@@ -1,0 +1,77 @@
+@hostname = http://localhost/api_meranti_expose
+@auth = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ1c2VyMkBnbWFpbC5jb20iLCJpYXQiOjE2NzI1Njg2MDEsImV4cCI6MTY3MjU3MjIwMX0.QHV4q79UmbMSIYpbhgcvpLEvDefJe0r4o_NZjDH28dg
+@apikey= fghjk
+
+POST {{hostname}}/v1/auth/login
+Content-Type: application/json
+
+{
+    "email":"user2@gmail.com",
+    "password":"123456"
+}
+
+###
+
+POST {{hostname}}/v1/auth/register
+Content-Type: application/json
+
+{
+    "email":"user100@gmail.com",
+    "password":"123456",
+    "name":"user100"
+}
+
+###
+
+GET {{hostname}}/v1/view-guests-pg?q=a&page=1&per_page=10&sort=desc&prodi=ti, biologi
+Authorization: Bearer {{apikey}}
+# Authorization:  {{apikey}}
+
+###
+
+GET {{hostname}}/v1/get-single-guest2/2
+Authorization: Bearer {{auth}}
+
+###
+
+GET {{hostname}}/v1/view-guests2
+Authorization: Bearer {{auth}}
+
+###
+
+POST {{hostname}}/v1/edit-single-guest2/12
+# Authorization: Bearer {{auth}}
+
+{
+    "full_name":"Bayu P",
+    "email":"bayup@gmail.com",
+    "comment":"Bay u P45"
+}
+
+###
+
+POST {{hostname}}/v1/mailtest
+Authorization: Bearer {{auth}}
+Content-Type: application/json
+
+{
+    "subject":"subjct kirim email",
+    "from_email":"cs@bijakin.com",
+    "title_from":"cs Bijakin",
+    "to_email":"islahudin.soft01engineer@gmail.com",
+    "content_email":"<h1>Send HTML Email using SMTP in PHP</h1> <p>This is a test email sending using SMTP mail server with PHPMailer.</p>"
+}
+
+###
+
+GET {{hostname}}/v1/generateqrcodetest
+Authorization: Bearer {{auth}}
+Content-Type: application/json
+
+###
+
+GET {{hostname}}/v1/tour
+Authorization: Bearer {{apikey}}
+# Authorization:  {{apikey}}
+
+###
