@@ -209,6 +209,7 @@ class TourController
         $current_day = date("l");
 
         $arr1 = null;
+        $opening_hours = null;
 
         $sql = "SELECT ttour.id AS id_tour, ttour.title,
         ttour.highlight,ttour.description,
@@ -216,6 +217,7 @@ class TourController
         ttour.detail_address,ttour.location_map,ttour.slug,
         ttour.email_expen AS email,ttour.phone_expen AS phone,ttour.whatsapp_expen AS whatsapp, ttour.rating AS rating_set,
         ttour.link_ig, ttour.link_fb,
+        ttour.min,ttour.sen,ttour.sel,ttour.rab,ttour.kam,ttour.jum,ttour.sab,
         tbl_tour_category.name AS category, tbl_tour_category.slug AS category_slug,
         tbl_tour_subcategory.name AS subcategory, tbl_tour_subcategory.slug AS subcategory_slug,
 
@@ -275,6 +277,19 @@ class TourController
 
             $data_row = $result->fetch(PDO::FETCH_ASSOC);
             $id_tour = $data_row["id_tour"];
+
+            // Full week schedule mapped to each day
+            $week_schedule = [
+                "minggu" => $data_row["min"],
+                "senin" => $data_row["sen"],
+                "selasa" => $data_row["sel"],
+                "rabu" => $data_row["rab"],
+                "kamis" => $data_row["kam"],
+                "jumat" => $data_row["jum"],
+                "sabtu" => $data_row["sab"]
+            ];
+
+            $opening_hours = getOpeningHours($week_schedule);
 
             $sql2 = "SELECT * FROM tbl_tour_image WHERE id_tour='$id_tour' AND `status` ='1' ORDER BY sort ASC";
 
@@ -476,7 +491,7 @@ class TourController
             }
 
 
-
+            $arr4= null;
             $sql4 = "SELECT tbl_master_day.day,
             tbl_tour_open_hours.*
             FROM tbl_tour_open_hours
@@ -682,6 +697,7 @@ class TourController
                 'review' => $arr3,
                 'my_review' => $arr3_2,
                 'open_hours' => $arr4,
+                'opening_hours' => $opening_hours,
                 'rating_type' => $arr6,
                 'short_gallery' => $arr1_,
                 'contact' => $arr2_,
