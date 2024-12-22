@@ -604,9 +604,9 @@ function getOpeningHours($week_schedule) {
       $open_time = $week_schedule[$day];
       $status = "tutup"; // Default to "tutup"
 
-      // If the value is a time range (HH:mm–HH:mm)
-      if (strpos($open_time, '–') !== false) {
-          list($start, $end) = explode('–', $open_time);
+      // If the value is a time range (HH:mm-HH:mm)
+      if (strpos($open_time, '-') !== false) {
+          list($start, $end) = explode('-', $open_time);
           // If today, check if the current time is within the opening time range
           if ($day === $today && $current_time >= $start && $current_time <= $end) {
               $status = "buka";
@@ -623,3 +623,5 @@ function getOpeningHours($week_schedule) {
       return ["day" => $day, "open_time" => $open_time, "status" => $status];
   }, $ordered_days);
 }
+
+
