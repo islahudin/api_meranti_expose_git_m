@@ -70,24 +70,43 @@ class ServerInfoController
         $result = $this->dbHandler->getDataAll($sql);
 
         $arr1 = null;
+        $arrAuth = null;
 
 
-        if (
-            ($result->rowCount()) > 0
-        ) {
+        if (($result->rowCount()) > 0) {
 
             $rowServer = $result->fetch(PDO::FETCH_ASSOC);
             $status_server = $rowServer['status'];
             $isAds = isset($rowServer["isAds"]) && $rowServer["isAds"] == 1 ? true : false;
 
+            $sqlCheckAuth = "SELECT * FROM tbl_auth_available 
+            WHERE `status` = '1'
+            ";
+
+            $resultCheckAuth = $this->dbHandler->getDataAll($sqlCheckAuth);
+
+            if (($resultCheckAuth->rowCount()) > 0) {
+                while ($rowUpdateCheckAuth = $resultCheckAuth->fetch(PDO::FETCH_ASSOC)) {
+                    $AuthStatus = isset($rowUpdateCheckAuth["status"]) && $rowUpdateCheckAuth["status"] == 1 ? true : false;
+                    $AuthTitle = $rowUpdateCheckAuth["title"];
+                    $AuthSlug = $rowUpdateCheckAuth["slug"];
+
+                    $arrAuth[] = array(
+                        'title' => $AuthTitle,
+                        'slug' => $AuthSlug,
+                        'status' => $AuthStatus,
+                    );
+                }
+            }
+
             if ($status_server == 'on') {
 
                 // MAIN MENU
-                if($language == "en"){
+                if ($language == "en") {
                     $sql = "SELECT
                     id_update, version_code, version_name, update_message_en AS update_message, status_update, `required` AS mandatory
                     FROM tbl_update_version_apps WHERE version_code <> '$v_code' AND status_update='1' AND platform='$platform' AND type_app='$type_app'";
-                }else{
+                } else {
                     $sql = "SELECT
                     id_update, version_code, version_name, update_message AS update_message, status_update, `required` AS mandatory
                     FROM tbl_update_version_apps WHERE version_code <> '$v_code' AND status_update='1' AND platform='$platform' AND type_app='$type_app'";
@@ -123,9 +142,9 @@ class ServerInfoController
                 }
 
                 // MAIN MENU
-                if($language == "en"){
+                if ($language == "en") {
                     $sqlMainMenu = "SELECT id, title_en AS title, slug, subtitle, img FROM tbl_main_menu WHERE `status` ='1' ORDER BY `sort` ASC";
-                }else{
+                } else {
                     $sqlMainMenu = "SELECT id, title AS title, slug, subtitle, img FROM tbl_main_menu WHERE `status` ='1' ORDER BY `sort` ASC";
                 }
 
@@ -158,6 +177,7 @@ class ServerInfoController
                     'server_desc' => "server on",
                     'update_app' => $arr1,
                     'main_menu' => $arrMainMenu,
+                    'auth_available' => $arrAuth,
                 );
 
 
@@ -176,6 +196,7 @@ class ServerInfoController
                     'server_desc' => "server off",
                     'update_app' => $arr1,
                     'main_menu' => $arrMainMenu,
+                    'auth_available' => $arrAuth,
                 );
 
             }
