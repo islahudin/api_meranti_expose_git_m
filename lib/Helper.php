@@ -624,4 +624,39 @@ function getOpeningHours($week_schedule) {
   }, $ordered_days);
 }
 
+function olah_data_json_login_regislog($data_json, $id_device_log, $id_tokenfire_user, $wlan0, $eth0, $ipv4, $ipv6, $wifi, $action, $tgl_input,$platform)
+{
+
+    $str = '';
+    foreach (json_decode($data_json, 1) as $a) {
+        $str .= '(';
+        $str .= "'$id_device_log',";
+        $str .= "'$id_tokenfire_user',";
+        $str .= "'$wlan0',";
+        $str .= "'$eth0',";
+        $str .= "'$ipv4',";
+        $str .= "'$ipv6',";
+        $str .= "'$wifi',";
+        $str .= "'$action',";
+        $str .= "'$tgl_input',";
+        $str .= "'$platform',";
+        $count = 1;
+        foreach ($a as $b) {
+
+            if ($count == 1) {
+                $str .= "'$b'";
+            } else if (end($a) == $b) {
+                $str .= ",'$b'";
+            } else {
+                $str .= ",'$b'";
+            }
+            $count = $count + 1;
+        }
+        $str .= "),\n";
+    }
+
+    $str = preg_replace('[,$]s', '', $str);
+    return $str;
+}
+
 

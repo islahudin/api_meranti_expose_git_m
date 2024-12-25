@@ -98,6 +98,7 @@ class RegisLoginController
 		}
 
 		$created_at = date('Y-m-d H:i:s');
+		$action="register";
 
 		$id_user = substr(CustomRequestHandler::getParam($request, "id_user"), 0, 19);
 		$email = CustomRequestHandler::getParam($request, "email");
@@ -118,7 +119,7 @@ class RegisLoginController
 		$ios_serial_device = CustomRequestHandler::getParam($request, "ios_serial_device");
 
 		$id_device_log = CustomRequestHandler::getParam($request, "id_device_log");
-		// $info_device=$dataApp['info_device'];
+		$info_device = CustomRequestHandler::getParam($request, "info_device");
 		$wlan0 = CustomRequestHandler::getParam($request, "wlan0");
 		$eth0 = CustomRequestHandler::getParam($request, "eth0");
 		$ipv4 = CustomRequestHandler::getParam($request, "ipv4");
@@ -166,7 +167,7 @@ class RegisLoginController
 				AND tokenfire_user='$tokenfire_user';
 
 				";
-				$resultUpdate = $this->dbHandler->updateDataAll($sqlUpdate);
+				$this->dbHandler->updateDataAll($sqlUpdate);
 			} else {
 
 				$sqlInsert = "INSERT INTO tbl_user_tokenfire_user set
@@ -183,7 +184,7 @@ class RegisLoginController
 				created_at='$created_at',
 				status='1';
 				";
-				$result = $this->dbHandler->insertDataAll($sqlInsert);
+				$this->dbHandler->insertDataAll($sqlInsert);
 			}
 
 			$arr1 = array(
@@ -242,6 +243,43 @@ class RegisLoginController
 
 				$result = $this->dbHandler->insertDataAll($sqlInsert);
 				if ($result) {
+
+					if($info_device !=null){
+						$sql_check_log = "SELECT id AS id_device_log_regislog_android FROM tbl_user_device_log_regislog_android where id='$id_device_log'";
+
+						$result_check_log = $this->dbHandler->getDataAll($sql_check_log);
+
+						if (($result_check_log->rowCount())<=0) {
+
+						
+
+							$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
+
+							$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
+
+							(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
+
+							board, brand, device_country_code,
+
+							device_language, device_time_zone, display,fingerprint,
+
+							hardware, host, id_device,imei,
+
+							imsi, manufacturer, model,product,
+
+							`serial`, uuid, version_incremental, version_sdk
+
+							)
+
+							VALUES
+
+							$data_data";
+
+							$result = $this->dbHandler->insertDataAll($sqlkirim2);
+
+						}
+
+					}
 
 					$arr1 = array(
 						'id_user' => "" . $id_user . "",
@@ -309,6 +347,7 @@ class RegisLoginController
 		}
 
 		$created_at = date('Y-m-d H:i:s');
+		$action="register";
 
 		$id_user = substr(CustomRequestHandler::getParam($request, "id_user"), 0, 19);
 		$email = CustomRequestHandler::getParam($request, "email");
@@ -330,6 +369,7 @@ class RegisLoginController
 
 		$id_device_log = CustomRequestHandler::getParam($request, "id_device_log");
 		// $info_device=$dataApp['info_device'];
+		$info_device = CustomRequestHandler::getParam($request, "info_device");
 		$wlan0 = CustomRequestHandler::getParam($request, "wlan0");
 		$eth0 = CustomRequestHandler::getParam($request, "eth0");
 		$ipv4 = CustomRequestHandler::getParam($request, "ipv4");
@@ -404,6 +444,41 @@ class RegisLoginController
 				$result = $this->dbHandler->insertDataAll($sqlInsert);
 				if ($result) {
 
+					if($info_device !=null){
+						$sql_check_log = "SELECT id AS id_device_log_regislog_android FROM tbl_user_device_log_regislog_android where id='$id_device_log'";
+
+						$result_check_log = $this->dbHandler->getDataAll($sql_check_log);
+
+						if (($result_check_log->rowCount())<=0) {
+							
+							$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
+
+							$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
+
+							(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
+
+							board, brand, device_country_code,
+
+							device_language, device_time_zone, display,fingerprint,
+
+							hardware, host, id_device,imei,
+
+							imsi, manufacturer, model,product,
+
+							`serial`, uuid, version_incremental, version_sdk
+
+							)
+
+							VALUES
+
+							$data_data";
+
+							$result = $this->dbHandler->insertDataAll($sqlkirim2);
+
+						}
+
+					}
+
 					$arr1 = array(
 						'id_user' => "" . $id_user . "",
 						'email' => "" . $email . "",
@@ -465,6 +540,7 @@ class RegisLoginController
 		}
 
 		$created_at = date('Y-m-d H:i:s');
+		$action="login";
 
 		$email = CustomRequestHandler::getParam($request, "email");
 		$password = CustomRequestHandler::getParam($request, "password");
@@ -479,6 +555,7 @@ class RegisLoginController
 
 		$id_device_log = CustomRequestHandler::getParam($request, "id_device_log");
 		// $info_device=$dataApp['info_device'];
+		$info_device = CustomRequestHandler::getParam($request, "info_device");
 		$wlan0 = CustomRequestHandler::getParam($request, "wlan0");
 		$eth0 = CustomRequestHandler::getParam($request, "eth0");
 		$ipv4 = CustomRequestHandler::getParam($request, "ipv4");
@@ -533,7 +610,7 @@ class RegisLoginController
 					AND tokenfire_user='$tokenfire_user';
 
 					";
-					$resultUpdate = $this->dbHandler->updateDataAll($sqlUpdate);
+					$this->dbHandler->updateDataAll($sqlUpdate);
 				} else {
 
 					$sqlInsert = "INSERT INTO tbl_user_tokenfire_user set
@@ -550,7 +627,42 @@ class RegisLoginController
 					created_at='$created_at',
 					`status`='1';
 					";
-					$result = $this->dbHandler->insertDataAll($sqlInsert);
+					$this->dbHandler->insertDataAll($sqlInsert);
+				}
+
+				if($info_device !=null){
+					$sql_check_log = "SELECT id AS id_device_log_regislog_android FROM tbl_user_device_log_regislog_android where id='$id_device_log'";
+
+					$result_check_log = $this->dbHandler->getDataAll($sql_check_log);
+
+					if (($result_check_log->rowCount())<=0) {
+						
+						$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
+
+						$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
+
+						(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
+
+						board, brand, device_country_code,
+
+						device_language, device_time_zone, display,fingerprint,
+
+						hardware, host, id_device,imei,
+
+						imsi, manufacturer, model,product,
+
+						`serial`, uuid, version_incremental, version_sdk
+
+						)
+
+						VALUES
+
+						$data_data";
+
+						$result = $this->dbHandler->insertDataAll($sqlkirim2);
+
+					}
+
 				}
 
 				$arr1 = array(
