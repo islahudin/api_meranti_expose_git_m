@@ -10,6 +10,7 @@ $app->post('/regis2', RegisLoginController::class . ':regis2');
 $app->post('/auth/login-social-media', RegisLoginController::class . ':LoginSocialMedia');
 $app->post('/auth/signup', RegisLoginController::class . ':signUp');
 $app->post('/auth/signin', RegisLoginController::class . ':signIn');
+$app->get('/auth/signupx', RegisLoginController::class . ':signUpX');
 
 $app->get('/tour-visit-type', TourController::class . ':getTourVisitType');
 $app->get('/tour-review-type', TourController::class . ':getTourReviewType');

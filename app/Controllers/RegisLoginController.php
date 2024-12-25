@@ -244,42 +244,40 @@ class RegisLoginController
 				$result = $this->dbHandler->insertDataAll($sqlInsert);
 				if ($result) {
 
-					// if($info_device !=null || $info_device !="" || (!empty($info_device))){
-					// 	$sql_check_log = "SELECT id AS id_device_log_regislog_android FROM tbl_user_device_log_regislog_android where id='$id_device_log'";
+					if($info_device !=null || $info_device !="" || (!empty($info_device))){
+						$sql_check_log = "SELECT id AS id_device_log_regislog_android FROM tbl_user_device_log_regislog_android where id='$id_device_log'";
 
-					// 	$result_check_log = $this->dbHandler->getDataAll($sql_check_log);
+						$result_check_log = $this->dbHandler->getDataAll($sql_check_log);
 
-					// 	if (($result_check_log->rowCount())<=0) {
+						if (($result_check_log->rowCount())<=0) {
 
-						
+							$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
 
-					// 		$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
+							$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
 
-					// 		$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
+							(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
 
-					// 		(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
+							board, brand, device_country_code,
 
-					// 		board, brand, device_country_code,
+							device_language, device_time_zone, display,fingerprint,
 
-					// 		device_language, device_time_zone, display,fingerprint,
+							hardware, host, id_device,imei,
 
-					// 		hardware, host, id_device,imei,
+							imsi, manufacturer, model,product,
 
-					// 		imsi, manufacturer, model,product,
+							`serial`, uuid, version_incremental, version_sdk
 
-					// 		`serial`, uuid, version_incremental, version_sdk
+							)
 
-					// 		)
+							VALUES
 
-					// 		VALUES
+							$data_data";
 
-					// 		$data_data";
+							$result = $this->dbHandler->insertDataAll($sqlkirim2);
 
-					// 		$result = $this->dbHandler->insertDataAll($sqlkirim2);
+						}
 
-					// 	}
-
-					// }
+					}
 
 					$arr1 = array(
 						'id_user' => "" . $id_user . "",
@@ -695,6 +693,79 @@ class RegisLoginController
 
 			return $this->customResponse->is404Response($response, $arrError);
 		}
+	}
+
+	public function signUpX(Request $request, Response $response)
+	{
+
+		$id_tokenfire_user="tffn001";
+		$id_device_log="001";
+		$wlan0="001";
+		$eth0="001";
+		$ipv4="001";
+		$ipv6="001";
+		$wifi="001";
+		$platform="android";
+
+		$created_at = date('Y-m-d H:i:s');
+		$action="register";
+		
+		$info_device='
+		[
+			{
+				"board": "marble",
+				"brand": "POCO",
+				"device_country_code": "",
+				"device_language": "Indonesia",
+				"device_time_zone": "Asia/Jakarta",
+				"display": "UKQ1.230804.001 release-keys",
+				"fingerprint": "POCO/marble_id/marble:14/UKQ1.230804.001/V816.0.11.0.UMRIDXM:user/release-keys",
+				"hardware": "qcom",
+				"host": "pangu-build-component-system-372561-3zvhx-gpsq8-jrj2r",
+				"id_device": "UKQ1.230804.001",
+				"imei": "",
+				"imsi": "",
+				"manufacturer": "Xiaomi",
+				"model": "23049PCD8G",
+				"product": "marble_id",
+				"serial": "",
+				"ui": "[-3, 105, -21, 67, -53, 84, 52, -41, 9, 66, -77, -86, 11, -10, 75, 104, 33, -121, -36, -18, 103, -75, 76, 82, 47, -6, 62, 103, 77, -67, -22, -42]",
+				"version_incremental": "V816.0.11.0.UMRIDXM",
+				"version_sdk": "34"
+			}
+		]
+		';
+		
+
+	
+
+		$data_data=olah_data_json_login_regislog($info_device,$id_device_log,$id_tokenfire_user,$wlan0,$eth0,$ipv4,$ipv6,$wifi,$action,$created_at,$platform);
+
+		// print_r($data_data);
+
+		$sqlkirim2 = "INSERT INTO tbl_user_device_log_regislog_android
+
+		(id, id_tokenfire_user, wlan0, eth0, ipv4, ipv6, wifi,`action`, created_at,platform,
+
+		board, brand, device_country_code,
+
+		device_language, device_time_zone, display,fingerprint,
+
+		hardware, host, id_device,imei,
+
+		imsi, manufacturer, model,product,
+
+		`serial`, uuid, version_incremental, version_sdk
+
+		)
+
+		VALUES
+
+		$data_data";
+
+// print_r($sqlkirim2);
+
+		$result = $this->dbHandler->insertDataAll($sqlkirim2);
 	}
 
 }
